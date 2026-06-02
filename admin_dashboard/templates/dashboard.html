@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard — RamilConnect Admin{% endblock %}
+
+{% block content %}
+<div class="page-header animate-in">
+    <div>
+        <h2>Dashboard</h2>
+        <p class="subtitle">Overview of your RamilConnect platform</p>
+    </div>
+    <div style="font-size: 13px; color: var(--text-muted);">
+        Last updated: <span id="timestamp"></span>
+    </div>
+</div>
+
+<!-- Stats Grid -->
+<div class="stats-grid animate-in" style="animation-delay: 0.1s">
+    <div class="card">
+        <div class="card-title">👥 Total Users</div>
+        <div class="card-value">{{ stats.total_users }}</div>
+    </div>
+    <div class="card">
+        <div class="card-title">💬 Total Messages</div>
+        <div class="card-value">{{ stats.total_messages }}</div>
+    </div>
+    <div class="card">
+        <div class="card-title">🟢 Active Sessions</div>
+        <div class="card-value">{{ stats.active_sessions }}</div>
+    </div>
+    <div class="card">
+        <div class="card-title">🧠 Personality Profiles</div>
+        <div class="card-value">{{ stats.personality_profiles }}</div>
+    </div>
+    <div class="card">
+        <div class="card-title">💕 Total Matches</div>
+        <div class="card-value">{{ stats.total_matches }}</div>
+    </div>
+</div>
+
+<!-- Recent Users -->
+<div class="card animate-in" style="animation-delay: 0.2s">
+    <h3 style="margin-bottom: 16px; font-size: 16px;">Recent Users</h3>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Companion</th>
+                    <th>Status</th>
+                    <th>Joined</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in recent_users %}
+                <tr>
+                    <td>
+                        <a href="/admin/users/{{ user.id }}" style="color: var(--accent); text-decoration: none; font-weight: 600;">
+                            {{ user.name }}
+                        </a>
+                    </td>
+                    <td style="color: var(--text-secondary);">{{ user.email }}</td>
+                    <td>
+                        <span class="badge badge-accent">{{ user.companion_persona }}</span>
+                    </td>
+                    <td>
+                        {% if user.onboarding_complete %}
+                        <span class="badge badge-success">Active</span>
+                        {% else %}
+                        <span class="badge badge-warning">Onboarding</span>
+                        {% endif %}
+                    </td>
+                    <td style="color: var(--text-muted); font-size: 13px;">{{ user.created_at[:10] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.getElementById('timestamp').textContent = new Date().toLocaleString();
+</script>
+{% endblock %}
