@@ -8,7 +8,7 @@ import json
 from typing import Dict, Any, Optional
 
 class APIClient:
-    def __init__(self, base_url: str = "http://10.0.2.2:8080/api"):
+    def __init__(self, base_url: str = "http://localhost:8080/api"):
         # Default to Android emulator localhost (10.0.2.2 maps to host 127.0.0.1)
         self.base_url = base_url
         self.access_token: Optional[str] = None
